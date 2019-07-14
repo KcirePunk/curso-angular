@@ -1,4 +1,6 @@
 import { Component, OnInit } from '@angular/core';
+import { HttpClient } from '@angular/common/http';
+import { SpotyfyService } from 'src/app/services/spotyfy.service';
 
 @Component({
   selector: 'app-home',
@@ -7,9 +9,22 @@ import { Component, OnInit } from '@angular/core';
 })
 export class HomeComponent implements OnInit {
 
-  constructor() { }
+  nuevasCanciones: any[] = [];
+  loading: boolean;
+
+  constructor(private spoti: SpotyfyService) 
+  { 
+    this.loading = true;
+    this.spoti.getNewReleases()
+        .subscribe( (res: any) => {
+          console.log(res);
+          this.nuevasCanciones = res;
+          this.loading = false;
+        });
+  }
 
   ngOnInit() {
+
   }
 
 }
